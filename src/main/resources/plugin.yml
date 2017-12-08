@@ -1,0 +1,6 @@
+name: cdnmMagic
+version: ${project.version}
+main: me.cdnmflip.cdnmmagic.Magic
+authors: [codenameflip]
+description: A fun little plugin/framework for implementing custom potions/spells into Minecraft
+website: http://cdnmflip.me
