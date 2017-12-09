@@ -32,7 +32,7 @@ public abstract class SpellItem extends ConsumableMagicItem {
     public ItemStack generateDefaultItem(Player player, int amount, String... additional)
     {
         ItemStack itemStack = new ItemStack(Material.INK_SACK);
-        itemStack.setDurability(color.getWoolData());
+        itemStack.setDurability(color.getDyeData());
         itemStack.setAmount(amount);
         itemStack.addUnsafeEnchantment(Enchantment.DURABILITY, 1);
 
@@ -58,6 +58,7 @@ public abstract class SpellItem extends ConsumableMagicItem {
         lore.add(" ");
         lore.add(ChatUtil.colorize("&c&lConsumed upon use!"));
 
+        itemMeta.setLore(lore);
         itemStack.setItemMeta(itemMeta);
 
         NBTItem nbtItem = new NBTItem(itemStack);
