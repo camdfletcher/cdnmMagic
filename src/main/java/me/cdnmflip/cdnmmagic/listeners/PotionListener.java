@@ -7,24 +7,24 @@ import me.cdnmflip.cdnmmagic.data.MagicItemType;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.player.PlayerItemConsumeEvent;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.Optional;
 
 /**
  * @author codenameflip
- * @since 12/8/17
+ * @since 12/9/17
  */
-public class ItemListener implements MagicListener {
+public class PotionListener implements MagicListener {
 
     @EventHandler
-    public void onInteract(PlayerInteractEvent event)
+    public void onConsumePotion(PlayerItemConsumeEvent event)
     {
         Player player = event.getPlayer();
         ItemStack hand = event.getItem();
 
-        if (hand != null && hand.getType() != Material.AIR)
+        if (hand != null && hand.getType() == Material.POTION)
         {
             if (Magic.get().getRegistry().isMagicItem(hand))
             {
@@ -32,11 +32,13 @@ public class ItemListener implements MagicListener {
 
                 if (validateMagicItem(magicItem, player))
                 {
-                    if (magicItem.get().getType() == MagicItemType.ITEMSTACK)
+                    if (magicItem.get().getType() == MagicItemType.POTION)
                     {
+                        event.setCancelled(true);
+
                         ConsumableMagicItem consumableMagicItem = (ConsumableMagicItem) magicItem.get();
 
-                        // Handle deduction of the item and cast the spell
+                        // Handle deduction of the potion
                         consumableMagicItem.onConsumption(player, hand);
                         consumableMagicItem.cast(player);
                     }
