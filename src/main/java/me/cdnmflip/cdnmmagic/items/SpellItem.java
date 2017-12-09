@@ -33,7 +33,7 @@ public abstract class SpellItem extends ConsumableMagicItem {
         itemStack.setAmount(amount);
 
         ItemMeta itemMeta = itemStack.getItemMeta();
-        itemMeta.setDisplayName(ChatUtil.colorize(getDisplayName()));
+        itemMeta.setDisplayName(ChatUtil.colorize(getDisplayName() + " &7&l(Right Click)"));
 
         // Lore generation
         List<String> lore = new ArrayList<>();

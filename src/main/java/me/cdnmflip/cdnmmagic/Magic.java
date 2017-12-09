@@ -14,11 +14,13 @@ public final class Magic extends JavaPlugin {
     {
         instance = this;
         registry = new SimpleMagicRegistry(); // Default to the simple registry. Other plugins are free to override
+        registry.loadMagic();
     }
 
     @Override
     public void onDisable()
     {
+        registry.unloadMagic();
     }
 
     public static Magic get()
@@ -34,6 +36,7 @@ public final class Magic extends JavaPlugin {
     public void setRegistry(IMagicRegistry registry)
     {
         this.registry = registry;
+        this.registry.loadMagic();
     }
 
 }
