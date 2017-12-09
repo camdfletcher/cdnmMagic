@@ -34,7 +34,7 @@ public abstract class SpellItem extends ConsumableMagicItem {
         ItemStack itemStack = new ItemStack(Material.INK_SACK);
         itemStack.setDurability(color.getWoolData());
         itemStack.setAmount(amount);
-        itemStack.addEnchantment(Enchantment.DURABILITY, 1);
+        itemStack.addUnsafeEnchantment(Enchantment.DURABILITY, 1);
 
         ItemMeta itemMeta = itemStack.getItemMeta();
         itemMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
