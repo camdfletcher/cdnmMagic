@@ -30,17 +30,7 @@ public class ShadowWalkerSpell extends SpellItem {
     @Override
     public void onConsumption(Player player, ItemStack consumed)
     {
-        if (consumed.getAmount() > 1)
-        {
-            ItemStack newStack = consumed.clone();
-            newStack.setAmount(consumed.getAmount() - 1);
-
-            player.setItemInHand(newStack);
-        }
-        else
-        {
-            player.getInventory().remove(consumed);
-        }
+        handleGenericConsumption(consumed, player);
     }
 
     @Override
@@ -58,7 +48,7 @@ public class ShadowWalkerSpell extends SpellItem {
     @Override
     public void onCast(Player player)
     {
-        COOLDOWN_EXPIRATIONS.put(player.getUniqueId(), System.currentTimeMillis() + getCooldownTime());
+        handleCooldown(player);
 
         // Invis
         player.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, 20 * 5, 0, false, true));

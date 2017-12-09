@@ -2,6 +2,7 @@ package me.cdnmflip.cdnmmagic.registry;
 
 import me.cdnmflip.cdnmmagic.data.IMagicRegistry;
 import me.cdnmflip.cdnmmagic.data.MagicItem;
+import me.cdnmflip.cdnmmagic.items.spells.JuggernautSpell;
 import me.cdnmflip.cdnmmagic.items.spells.ShadowWalkerSpell;
 import me.cdnmflip.cdnmmagic.util.NBTItem;
 import org.bukkit.inventory.ItemStack;
@@ -25,7 +26,8 @@ public class SimpleMagicRegistry implements IMagicRegistry {
     {
         // Load all default items that will come bundled with the plugin
         MAGIC_ITEMS.addAll(Stream.of(
-                new ShadowWalkerSpell()
+                new ShadowWalkerSpell(),
+                new JuggernautSpell()
         ).collect(Collectors.toList()));
     }
 

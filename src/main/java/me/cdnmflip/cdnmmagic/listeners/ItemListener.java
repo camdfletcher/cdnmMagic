@@ -5,6 +5,7 @@ import me.cdnmflip.cdnmmagic.data.ConsumableMagicItem;
 import me.cdnmflip.cdnmmagic.data.MagicItem;
 import me.cdnmflip.cdnmmagic.data.MagicItemType;
 import me.cdnmflip.cdnmmagic.util.ChatUtil;
+import me.cdnmflip.cdnmmagic.util.TimeUtil;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
@@ -14,7 +15,6 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.Optional;
-import java.util.concurrent.TimeUnit;
 
 /**
  * @author codenameflip
@@ -50,10 +50,9 @@ public class ItemListener implements Listener {
                 }
                 else if (cooldownExpirationTime > System.currentTimeMillis())
                 {
-                    long timeUntilExpiration = TimeUnit.MILLISECONDS.toSeconds(magicItem.get().getTimeUntilCooldownExpiration(player.getUniqueId()));
+                    long timeUntilExpiration = magicItem.get().getTimeUntilCooldownExpiration(player.getUniqueId());
 
-                    ChatUtil.error(player, "You're currently on cooldown for the " + magicItem.get().getDisplayName() + "&c!");
-                    ChatUtil.error(player, " &7&o(Your expiration will end in &6" + timeUntilExpiration + " seconds&7&o)");
+                    ChatUtil.error(player, "Slow down! You're on cooldown for another §6" + TimeUtil.getDurationBreakdown(timeUntilExpiration));
 
                     player.playSound(player.getLocation(), Sound.NOTE_BASS, 1, 1);
 
