@@ -1,4 +1,3 @@
-# cdnmMagic
-A fun little plugin/framework for implementing custom potions/spells into Minecraft
+<p align="center"><img src="https://i.imgur.com/a7KoLRc.png"/></p>
 
-_Documentation pending..._ :smile:
+``README.md under construction! Refer to the wiki for immediate information relating to the API``
