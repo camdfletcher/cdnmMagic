@@ -66,7 +66,9 @@ public abstract class SpellItem extends ConsumableMagicItem {
             builder.withLore(" ");
         }
 
-        builder.withLore("&fCooldown &6" + TimeUtil.getDurationBreakdown(getCooldownTime()));
+        builder.withLore("&fCooldown &6" + TimeUtil.getDurationBreakdown(getCooldownTime()))
+                .withLore(" ")
+                .withLore("&c&lConsumed upon use!");
 
         NBTItem nbtItem = new NBTItem(builder.build());
         nbtItem.setString("magic_item", this.getIdentifier());
