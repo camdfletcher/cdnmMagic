@@ -20,7 +20,7 @@ public class ShadowWalkerSpell extends SpellItem {
     {
         super("shadowwalker",
                 "§3§lShadow Walker Spell",
-                TimeUnit.MINUTES.toMillis(1),
+                TimeUnit.SECONDS.toMillis(5), // TODO: Remember to revert from debug value
                 DyeColor.CYAN,
                 "&fFor a period of &68 seconds &fyou",
                 "&fwill become &ecompletely invisible &fand",
