@@ -3,6 +3,7 @@ package me.cdnmflip.cdnmmagic;
 import me.cdnmflip.cdnmmagic.commands.GiveMagicItemCommand;
 import me.cdnmflip.cdnmmagic.data.IMagicRegistry;
 import me.cdnmflip.cdnmmagic.listeners.ItemListener;
+import me.cdnmflip.cdnmmagic.listeners.PotionListener;
 import me.cdnmflip.cdnmmagic.registry.SimpleMagicRegistry;
 import me.cdnmflip.cdnmmagic.util.ChatUtil;
 import org.bukkit.Bukkit;
@@ -27,7 +28,8 @@ public final class Magic extends JavaPlugin {
         registry.loadMagic();
 
         registerListeners(
-                new ItemListener()
+                new ItemListener(),
+                new PotionListener()
         );
 
         getCommand("giveMagicItem").setExecutor(new GiveMagicItemCommand());

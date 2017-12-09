@@ -24,7 +24,7 @@ public class ItemListener implements MagicListener {
         Player player = event.getPlayer();
         ItemStack hand = event.getItem();
 
-        if (hand != null && hand.getType() != Material.AIR)
+        if (hand != null && hand.getType() != Material.AIR && hand.getType() != Material.POTION)
         {
             if (Magic.get().getRegistry().isMagicItem(hand))
             {

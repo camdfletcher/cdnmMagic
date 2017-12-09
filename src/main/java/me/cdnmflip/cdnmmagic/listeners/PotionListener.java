@@ -30,12 +30,12 @@ public class PotionListener implements MagicListener {
             {
                 Optional<MagicItem> magicItem = Magic.get().getRegistry().getItem(hand);
 
+                event.setCancelled(true);
+
                 if (validateMagicItem(magicItem, player))
                 {
                     if (magicItem.get().getType() == MagicItemType.POTION)
                     {
-                        event.setCancelled(true);
-
                         ConsumableMagicItem consumableMagicItem = (ConsumableMagicItem) magicItem.get();
 
                         // Handle deduction of the potion
