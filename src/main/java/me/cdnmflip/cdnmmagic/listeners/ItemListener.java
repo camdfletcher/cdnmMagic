@@ -6,6 +6,7 @@ import me.cdnmflip.cdnmmagic.data.MagicItem;
 import me.cdnmflip.cdnmmagic.data.MagicItemType;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
@@ -29,6 +30,10 @@ public class ItemListener implements MagicListener {
             if (Magic.get().getRegistry().isMagicItem(hand))
             {
                 Optional<MagicItem> magicItem = Magic.get().getRegistry().getItem(hand);
+
+                event.setCancelled(true);
+                event.setUseItemInHand(Event.Result.DENY);
+                event.setUseInteractedBlock(Event.Result.DENY);
 
                 if (validateMagicItem(magicItem, player))
                 {
