@@ -14,11 +14,23 @@ public final class ChatUtil {
     {
     }
 
+    /**
+     * Utility method for quickly messaging a {@link Player} with the tag automatically appended and the message auto colored
+     *
+     * @param player The {@link Player} you would like to send a message to
+     * @param message The message you would like to send
+     */
     public static void msg(Player player, String message)
     {
         player.sendMessage(Magic.TAG + colorize(message));
     }
 
+    /**
+     * Utility method for quickly sending an error message to a {@link Player} with the tag automatically appended and the message auto colored
+     *
+     * @param player The {@link Player} you would like to send an error message to
+     * @param errorMessage The error message you would like to send
+     */
     public static void error(Player player, String errorMessage)
     {
         msg(player, colorize("&c" + errorMessage));
