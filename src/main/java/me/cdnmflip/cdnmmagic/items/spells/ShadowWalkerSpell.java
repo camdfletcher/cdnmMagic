@@ -20,9 +20,9 @@ public class ShadowWalkerSpell extends SpellItem {
     {
         super("shadowwalker",
                 "§3§lShadow Walker Spell",
-                TimeUnit.SECONDS.toMillis(5), // TODO: Remember to revert from debug value
-                DyeColor.CYAN,
-                "&fFor a period of &68 seconds &fyou",
+                TimeUnit.SECONDS.toMillis(60),
+                DyeColor.GRAY,
+                "&fFor a period of &65 seconds &fyou",
                 "&fwill become &ecompletely invisible &fand",
                 "&fwill disappear in a cloud of particles!");
     }
@@ -61,8 +61,8 @@ public class ShadowWalkerSpell extends SpellItem {
         COOLDOWN_EXPIRATIONS.put(player.getUniqueId(), System.currentTimeMillis() + getCooldownTime());
 
         // Invis
-        player.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, 20 * 8, 0, false, true));
-        player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 20 * 8, 2, false, true));
+        player.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, 20 * 5, 0, false, true));
+        player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 20 * 5, 1, false, true));
 
         // Particles
         player.getWorld().playEffect(player.getLocation(), Effect.EXPLOSION_HUGE, 0);

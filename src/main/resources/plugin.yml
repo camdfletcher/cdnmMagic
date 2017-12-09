@@ -7,3 +7,4 @@ website: http://cdnmflip.me
 commands:
   giveMagicItem:
     description: Gives a specified amount of a registered magical item to a player
+    aliases: [gmi]
