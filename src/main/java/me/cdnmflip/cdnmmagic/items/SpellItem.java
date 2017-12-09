@@ -5,7 +5,9 @@ import me.cdnmflip.cdnmmagic.data.MagicItemType;
 import me.cdnmflip.cdnmmagic.util.ChatUtil;
 import org.bukkit.DyeColor;
 import org.bukkit.Material;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -31,8 +33,10 @@ public abstract class SpellItem extends ConsumableMagicItem {
         ItemStack itemStack = new ItemStack(Material.INK_SACK);
         itemStack.setDurability(color.getWoolData());
         itemStack.setAmount(amount);
+        itemStack.addEnchantment(Enchantment.DURABILITY, 1);
 
         ItemMeta itemMeta = itemStack.getItemMeta();
+        itemMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
         itemMeta.setDisplayName(ChatUtil.colorize(getDisplayName() + " &7&l(Right Click)"));
 
         // Lore generation
