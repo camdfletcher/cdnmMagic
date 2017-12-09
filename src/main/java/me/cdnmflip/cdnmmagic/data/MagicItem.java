@@ -146,4 +146,14 @@ public abstract class MagicItem {
         }
     }
 
+    /**
+     * Automatically wraps the processing of cooldown management (for readability)
+     *
+     * @param player The {@link Player} that is being put on cooldown
+     */
+    protected void handleCooldown(Player player)
+    {
+        COOLDOWN_EXPIRATIONS.put(player.getUniqueId(), System.currentTimeMillis() + getCooldownTime());
+    }
+
 }

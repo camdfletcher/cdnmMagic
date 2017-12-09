@@ -31,38 +31,6 @@ public abstract class SpellItem extends ConsumableMagicItem {
     }
 
     /**
-     * Automatically wraps the processing of cooldown management (for readability)
-     *
-     * @param player The {@link Player} that is being put on cooldown
-     */
-    protected void handleCooldown(Player player)
-    {
-        COOLDOWN_EXPIRATIONS.put(player.getUniqueId(), System.currentTimeMillis() + getCooldownTime());
-    }
-
-    /**
-     * Automatically handle the generic consumption of a spell
-     * e.g. Remove one item from a stack or the entire stack if needed
-     *
-     * @param consumed The {@link ItemStack} that was consumed (clicked)
-     * @param player The {@link Player} who consumed the item
-     */
-    protected void handleGenericConsumption(ItemStack consumed, Player player)
-    {
-        if (consumed.getAmount() > 1)
-        {
-            ItemStack newStack = consumed.clone();
-            newStack.setAmount(consumed.getAmount() - 1);
-
-            player.setItemInHand(newStack);
-        }
-        else
-        {
-            player.getInventory().remove(consumed);
-        }
-    }
-
-    /**
      * Automatically generates a spell item using the specified template format
      *
      * @param player The {@link Player} who will be used to customize the item (if applicable)

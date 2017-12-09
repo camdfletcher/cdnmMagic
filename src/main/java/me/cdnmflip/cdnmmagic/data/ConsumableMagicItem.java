@@ -23,4 +23,26 @@ public abstract class ConsumableMagicItem extends MagicItem {
      */
     public abstract void onConsumption(Player player, ItemStack consumed);
 
+    /**
+     * Automatically handle the generic consumption of a spell
+     * e.g. Remove one item from a stack or the entire stack if needed
+     *
+     * @param consumed The {@link ItemStack} that was consumed (clicked)
+     * @param player The {@link Player} who consumed the item
+     */
+    protected void handleGenericConsumption(ItemStack consumed, Player player)
+    {
+        if (consumed.getAmount() > 1)
+        {
+            ItemStack newStack = consumed.clone();
+            newStack.setAmount(consumed.getAmount() - 1);
+
+            player.setItemInHand(newStack);
+        }
+        else
+        {
+            player.getInventory().remove(consumed);
+        }
+    }
+
 }
