@@ -1,5 +1,6 @@
 package me.cdnmflip.cdnmmagic;
 
+import me.cdnmflip.cdnmmagic.commands.GiveMagicItemCommand;
 import me.cdnmflip.cdnmmagic.data.IMagicRegistry;
 import me.cdnmflip.cdnmmagic.listeners.ItemListener;
 import me.cdnmflip.cdnmmagic.registry.SimpleMagicRegistry;
@@ -28,6 +29,8 @@ public final class Magic extends JavaPlugin {
         registerListeners(
                 new ItemListener()
         );
+
+        getCommand("giveMagicItem").setExecutor(new GiveMagicItemCommand());
     }
 
     @Override
