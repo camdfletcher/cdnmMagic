@@ -58,7 +58,7 @@ public class ShadowWalkerSpell extends SpellItem {
     @Override
     public void onCast(Player player)
     {
-        // TODO: Cooldown stuff.
+        COOLDOWN_EXPIRATIONS.put(player.getUniqueId(), System.currentTimeMillis() + getCooldownTime());
 
         // Invis
         player.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, 20 * 8, 0, false, true));

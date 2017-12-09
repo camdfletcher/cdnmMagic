@@ -6,6 +6,7 @@ import me.cdnmflip.cdnmmagic.data.MagicItem;
 import me.cdnmflip.cdnmmagic.data.MagicItemType;
 import me.cdnmflip.cdnmmagic.util.ChatUtil;
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -13,6 +14,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.Optional;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author codenameflip
@@ -36,6 +38,24 @@ public class ItemListener implements Listener {
                 {
                     ChatUtil.error(player, "Unable to reference item id from this magic item!");
                     ChatUtil.error(player, "Report this issue to an administrator for assistance.");
+
+                    return;
+                }
+
+                long cooldownExpirationTime = magicItem.get().getCooldownExpirationTime(player.getUniqueId());
+
+                if (cooldownExpirationTime <= System.currentTimeMillis())
+                {
+                    magicItem.get().COOLDOWN_EXPIRATIONS.remove(player.getUniqueId()); // Cooldown expriation over
+                }
+                else if (cooldownExpirationTime > System.currentTimeMillis())
+                {
+                    long timeUntilExpiration = TimeUnit.MILLISECONDS.toSeconds(magicItem.get().getTimeUntilCooldownExpiration(player.getUniqueId()));
+
+                    ChatUtil.error(player, "You're currently on cooldown for the " + magicItem.get().getDisplayName() + " &cspell!");
+                    ChatUtil.error(player, " &7&o(Your expiration will end in &6" + timeUntilExpiration + " seconds&7&o)");
+
+                    player.playSound(player.getLocation(), Sound.NOTE_BASS, 1, 1);
 
                     return;
                 }
