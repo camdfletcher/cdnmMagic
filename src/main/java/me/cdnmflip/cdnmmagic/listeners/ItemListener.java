@@ -52,7 +52,7 @@ public class ItemListener implements Listener {
                 {
                     long timeUntilExpiration = TimeUnit.MILLISECONDS.toSeconds(magicItem.get().getTimeUntilCooldownExpiration(player.getUniqueId()));
 
-                    ChatUtil.error(player, "You're currently on cooldown for the " + magicItem.get().getDisplayName() + " &cspell!");
+                    ChatUtil.error(player, "You're currently on cooldown for the " + magicItem.get().getDisplayName() + "&c!");
                     ChatUtil.error(player, " &7&o(Your expiration will end in &6" + timeUntilExpiration + " seconds&7&o)");
 
                     player.playSound(player.getLocation(), Sound.NOTE_BASS, 1, 1);

@@ -62,6 +62,7 @@ public class ShadowWalkerSpell extends SpellItem {
 
         // Invis
         player.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, 20 * 8, 0, false, true));
+        player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 20 * 8, 2, false, true));
 
         // Particles
         player.getWorld().playEffect(player.getLocation(), Effect.EXPLOSION_HUGE, 0);
