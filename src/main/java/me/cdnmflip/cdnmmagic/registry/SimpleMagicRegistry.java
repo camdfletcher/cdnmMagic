@@ -3,6 +3,7 @@ package me.cdnmflip.cdnmmagic.registry;
 import me.cdnmflip.cdnmmagic.data.IMagicRegistry;
 import me.cdnmflip.cdnmmagic.data.MagicItem;
 import me.cdnmflip.cdnmmagic.items.spells.ShadowWalkerSpell;
+import me.cdnmflip.cdnmmagic.util.NBTItem;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.HashSet;
@@ -51,16 +52,22 @@ public class SimpleMagicRegistry implements IMagicRegistry {
     @Override
     public Optional<MagicItem> getItem(ItemStack itemStack)
     {
-        // TODO: Check for NBT identifiers here
+        NBTItem nbtItem = new NBTItem(itemStack);
 
-        return Optional.empty();
+        if (!nbtItem.hasKey("magic_item"))
+        {
+            return Optional.empty();
+        }
+
+        String identifier = nbtItem.getString("magic_item");
+
+        return getItem(identifier);
     }
 
     @Override
     public boolean isMagicItem(ItemStack itemStack)
     {
-        // TODO: Not sure how comparing should be done. Ideally NBT tags are the safest/most future proof solution.
-        return false;
+        return new NBTItem(itemStack).hasKey("magic_item");
     }
 
 }

@@ -3,6 +3,7 @@ package me.cdnmflip.cdnmmagic.items;
 import me.cdnmflip.cdnmmagic.data.ConsumableMagicItem;
 import me.cdnmflip.cdnmmagic.data.MagicItemType;
 import me.cdnmflip.cdnmmagic.util.ChatUtil;
+import me.cdnmflip.cdnmmagic.util.NBTItem;
 import org.bukkit.DyeColor;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
@@ -59,9 +60,10 @@ public abstract class SpellItem extends ConsumableMagicItem {
 
         itemStack.setItemMeta(itemMeta);
 
-        // TODO: If NBT tags are implemented, this will be where they have to be assigned.
+        NBTItem nbtItem = new NBTItem(itemStack);
+        nbtItem.setString("magic_item", this.getIdentifier());
 
-        return itemStack;
+        return nbtItem.getItem();
     }
 
 }
