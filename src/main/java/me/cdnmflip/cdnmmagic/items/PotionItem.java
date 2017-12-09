@@ -29,7 +29,17 @@ public abstract class PotionItem extends ConsumableMagicItem {
     @Override
     public void onConsumption(Player player, ItemStack consumed)
     {
-        handleGenericConsumption(consumed, player);
+        if (consumed.getAmount() > 1)
+        {
+            ItemStack newStack = consumed.clone();
+            newStack.setAmount(consumed.getAmount() - 1);
+
+            player.setItemInHand(newStack);
+        }
+        else
+        {
+            player.setItemInHand(new ItemStack(Material.AIR)); // Messy work around for the removal of ALL unstacked potions
+        }
     }
 
     @Override
