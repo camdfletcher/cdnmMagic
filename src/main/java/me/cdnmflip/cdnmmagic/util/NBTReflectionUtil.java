@@ -7,7 +7,11 @@ import org.bukkit.inventory.ItemStack;
  * @author codenameflip
  * @since 12/8/17
  */
-public class NBTReflectionUtil {
+public final class NBTReflectionUtil {
+
+    private NBTReflectionUtil()
+    {
+    }
 
     private static Class getCraftItemstack()
     {

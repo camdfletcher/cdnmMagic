@@ -3,7 +3,6 @@ package me.cdnmflip.cdnmmagic.items.spells;
 import me.cdnmflip.cdnmmagic.items.SpellItem;
 import org.bukkit.DyeColor;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
@@ -25,18 +24,6 @@ public class JuggernautSpell extends SpellItem {
                 "&fboost when consumed! But beware! You will also",
                 "&freceive a &2&lDEBUFF &fwhile the Strength is active!"
         );
-    }
-
-    @Override
-    public void onConsumption(Player player, ItemStack consumed)
-    {
-        handleGenericConsumption(consumed, player);
-    }
-
-    @Override
-    public ItemStack generateItemStack(Player player, int amount)
-    {
-        return generateDefaultItem(player, amount);
     }
 
     @Override

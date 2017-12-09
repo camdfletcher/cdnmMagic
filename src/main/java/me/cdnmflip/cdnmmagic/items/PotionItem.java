@@ -5,25 +5,25 @@ import me.cdnmflip.cdnmmagic.data.MagicItemType;
 import me.cdnmflip.cdnmmagic.util.ItemStackBuilder;
 import me.cdnmflip.cdnmmagic.util.NBTItem;
 import me.cdnmflip.cdnmmagic.util.TimeUtil;
-import org.bukkit.DyeColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.potion.PotionType;
 
 import java.util.Arrays;
 
 /**
  * @author codenameflip
- * @since 12/8/17
+ * @since 12/9/17
  */
-public abstract class SpellItem extends ConsumableMagicItem {
+public abstract class PotionItem extends ConsumableMagicItem {
 
-    private DyeColor color;
+    private final PotionType potionType;
 
-    public SpellItem(String identifier, String displayName, long cooldown, DyeColor color, String... description)
+    public PotionItem(String identifier, String displayName, long cooldown, PotionType potionType, String... description)
     {
-        super(MagicItemType.ITEMSTACK, identifier, displayName, cooldown, description);
-        this.color = color;
+        super(MagicItemType.POTION, identifier, displayName, cooldown, description);
+        this.potionType = potionType;
     }
 
     @Override
@@ -39,7 +39,7 @@ public abstract class SpellItem extends ConsumableMagicItem {
     }
 
     /**
-     * Automatically generates a spell item using the specified template format
+     * Automatically generates a magic potion item using the specified template format
      *
      * @param player The {@link Player} who will be used to customize the item (if applicable)
      * @param amount The number of spells that should be generated in this stack (NOTE: Cannot be > 64)
@@ -48,12 +48,12 @@ public abstract class SpellItem extends ConsumableMagicItem {
      */
     private ItemStack generateDefaultItem(Player player, int amount, String... additional)
     {
-        ItemStackBuilder builder = new ItemStackBuilder(Material.INK_SACK)
+        ItemStackBuilder builder = new ItemStackBuilder(Material.POTION)
                 .withAmount(amount)
-                .withData(color.getDyeData())
+                .withData(potionType.getDamageValue())
                 .withGlow()
-                .withName(getDisplayName() + " &7&l(Right Click)")
-                .withLore("&7&oConsumable Spell")
+                .withName(getDisplayName() + " &7&l(Drink)")
+                .withLore("&7&oConsumable Magic Potion")
                 .withLore(" ");
 
         Arrays.stream(getDescription()).forEach(builder::withLore);

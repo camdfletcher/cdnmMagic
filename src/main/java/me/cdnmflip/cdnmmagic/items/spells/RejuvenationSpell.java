@@ -5,7 +5,6 @@ import me.cdnmflip.cdnmmagic.items.SpellItem;
 import me.cdnmflip.cdnmmagic.util.ChatUtil;
 import org.bukkit.DyeColor;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
 
 import java.util.concurrent.TimeUnit;
 
@@ -24,18 +23,6 @@ public class RejuvenationSpell extends SpellItem {
                 "&fInstantly resets &eall &fyour",
                 "&fcurrent spell cooldowns."
         );
-    }
-
-    @Override
-    public void onConsumption(Player player, ItemStack consumed)
-    {
-        handleGenericConsumption(consumed, player);
-    }
-
-    @Override
-    public ItemStack generateItemStack(Player player, int amount)
-    {
-        return generateDefaultItem(player, amount);
     }
 
     @Override

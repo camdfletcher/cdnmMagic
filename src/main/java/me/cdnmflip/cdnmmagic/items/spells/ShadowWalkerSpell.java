@@ -4,7 +4,6 @@ import me.cdnmflip.cdnmmagic.items.SpellItem;
 import org.bukkit.DyeColor;
 import org.bukkit.Effect;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
@@ -20,23 +19,12 @@ public class ShadowWalkerSpell extends SpellItem {
     {
         super("shadowwalker",
                 "§3§lShadow Walker Spell",
-                TimeUnit.SECONDS.toMillis(60),
+                TimeUnit.MINUTES.toMillis(1),
                 DyeColor.GRAY,
                 "&fFor a period of &65 seconds &fyou",
                 "&fwill become &ecompletely invisible &fand",
-                "&fwill disappear in a cloud of particles!");
-    }
-
-    @Override
-    public void onConsumption(Player player, ItemStack consumed)
-    {
-        handleGenericConsumption(consumed, player);
-    }
-
-    @Override
-    public ItemStack generateItemStack(Player player, int amount)
-    {
-        return generateDefaultItem(player, amount);
+                "&fwill disappear in a cloud of particles!"
+        );
     }
 
     @Override
