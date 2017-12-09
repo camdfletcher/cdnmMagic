@@ -42,6 +42,14 @@ public interface IMagicRegistry {
     Optional<MagicItem> getItem(String identifier);
 
     /**
+     * Retrieves an indexed instance of a {@link MagicItem}
+     *
+     * @param itemStack The item that is being used to resolve a {@link MagicItem} instance
+     * @return An {@link Optional} containing the retrieved instance of {@link MagicItem} (if existing)
+     */
+    Optional<MagicItem> getItem(ItemStack itemStack);
+
+    /**
      * Checks whether or not that an {@link ItemStack} is the representation of a {@link MagicItem}
      *
      * @param itemStack The {@link ItemStack} that is being validated

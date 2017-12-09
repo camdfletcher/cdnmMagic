@@ -49,6 +49,14 @@ public class SimpleMagicRegistry implements IMagicRegistry {
     }
 
     @Override
+    public Optional<MagicItem> getItem(ItemStack itemStack)
+    {
+        // TODO: Check for NBT identifiers here
+
+        return Optional.empty();
+    }
+
+    @Override
     public boolean isMagicItem(ItemStack itemStack)
     {
         // TODO: Not sure how comparing should be done. Ideally NBT tags are the safest/most future proof solution.

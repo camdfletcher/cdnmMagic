@@ -1,6 +1,8 @@
 package me.cdnmflip.cdnmmagic.util;
 
+import me.cdnmflip.cdnmmagic.Magic;
 import net.md_5.bungee.api.ChatColor;
+import org.bukkit.entity.Player;
 
 /**
  * @author codenameflip
@@ -10,6 +12,16 @@ public final class ChatUtil {
 
     private ChatUtil()
     {
+    }
+
+    public static void msg(Player player, String message)
+    {
+        player.sendMessage(Magic.TAG + colorize(message));
+    }
+
+    public static void error(Player player, String errorMessage)
+    {
+        msg(player, colorize("&c" + errorMessage));
     }
 
     /**
