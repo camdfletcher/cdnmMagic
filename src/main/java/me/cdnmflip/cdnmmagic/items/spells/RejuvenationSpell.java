@@ -43,8 +43,5 @@ public class RejuvenationSpell extends SpellItem {
                 player.sendMessage(ChatUtil.colorize("&bCooldown reset for " + item.getDisplayName() + "&b!"));
             }
         });
-
-        // Process the cooldown AFTERWARDS so that it doesnt add the cooldown and then immediately remove it
-        handleCooldown(player);
     }
 }

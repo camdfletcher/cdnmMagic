@@ -143,6 +143,7 @@ public abstract class MagicItem {
         if (canCast(caster))
         {
             onCast(caster);
+            handleCooldown(caster);
         }
     }
 
@@ -153,6 +154,8 @@ public abstract class MagicItem {
      */
     protected void handleCooldown(Player player)
     {
+        Objects.requireNonNull(player, "player");
+
         COOLDOWN_EXPIRATIONS.put(player.getUniqueId(), System.currentTimeMillis() + getCooldownTime());
     }
 

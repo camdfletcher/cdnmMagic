@@ -35,8 +35,6 @@ public class JuggernautSpell extends SpellItem {
     @Override
     public void onCast(Player player)
     {
-        handleCooldown(player);
-
         // Strength
         player.addPotionEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 20 * 7, 2, false, true));
         player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_DIGGING, 20 * 7, 1, false, true));

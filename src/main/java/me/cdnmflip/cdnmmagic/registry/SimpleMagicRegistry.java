@@ -2,6 +2,7 @@ package me.cdnmflip.cdnmmagic.registry;
 
 import me.cdnmflip.cdnmmagic.data.IMagicRegistry;
 import me.cdnmflip.cdnmmagic.data.MagicItem;
+import me.cdnmflip.cdnmmagic.items.potions.FlameFuryPotion;
 import me.cdnmflip.cdnmmagic.items.spells.JuggernautSpell;
 import me.cdnmflip.cdnmmagic.items.spells.RejuvenationSpell;
 import me.cdnmflip.cdnmmagic.items.spells.ShadowWalkerSpell;
@@ -27,9 +28,13 @@ public class SimpleMagicRegistry implements IMagicRegistry {
     {
         // Load all default items that will come bundled with the plugin
         MAGIC_ITEMS.addAll(Stream.of(
+                // Spells
                 new ShadowWalkerSpell(),
                 new JuggernautSpell(),
-                new RejuvenationSpell()
+                new RejuvenationSpell(),
+
+                // Potions
+                new FlameFuryPotion()
         ).collect(Collectors.toList()));
     }
 
