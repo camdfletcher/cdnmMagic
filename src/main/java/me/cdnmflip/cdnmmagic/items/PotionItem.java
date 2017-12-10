@@ -7,6 +7,7 @@ import me.cdnmflip.cdnmmagic.util.NBTItem;
 import me.cdnmflip.cdnmmagic.util.TimeUtil;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionType;
 
@@ -62,6 +63,7 @@ public abstract class PotionItem extends ConsumableMagicItem {
                 .withAmount(amount)
                 .withData(potionType.getDamageValue())
                 .withGlow()
+                .withFlag(ItemFlag.HIDE_POTION_EFFECTS)
                 .withName(getDisplayName() + " &7&l(Drink)")
                 .withLore("&7&oConsumable Magic Potion")
                 .withLore(" ");

@@ -76,6 +76,15 @@ public final class ItemStackBuilder {
         return this;
     }
 
+    public ItemStackBuilder withFlag(ItemFlag flag)
+    {
+        ItemMeta meta = this.ITEM_STACK.getItemMeta();
+        meta.addItemFlags(flag);
+
+        this.ITEM_STACK.setItemMeta(meta);
+        return this;
+    }
+
     public ItemStackBuilder withEnchantment(Enchantment enchantment, int level)
     {
         this.ITEM_STACK.addUnsafeEnchantment(enchantment, level);
