@@ -7,50 +7,50 @@ import org.bukkit.inventory.ItemStack;
  */
 public class NBTItem {
 
-  private ItemStack bukkititem;
+  private ItemStack itemStack;
 
-  public NBTItem(ItemStack Item) {
-    bukkititem = Item.clone();
+  public NBTItem(ItemStack itemStack) {
+    this.itemStack = itemStack.clone();
   }
 
   public ItemStack getItem() {
-    return bukkititem;
-  }
-
-  public void setString(String Key, String Text) {
-    bukkititem = NBTReflectionUtil.setString(bukkititem, Key, Text);
-  }
-
-  public String getString(String Key) {
-    return NBTReflectionUtil.getString(bukkititem, Key);
-  }
-
-  public void setInteger(String key, Integer Int) {
-    bukkititem = NBTReflectionUtil.setInt(bukkititem, key, Int);
-  }
-
-  public Integer getInteger(String key) {
-    return NBTReflectionUtil.getInt(bukkititem, key);
-  }
-
-  public void setDouble(String key, Double d) {
-    bukkititem = NBTReflectionUtil.setDouble(bukkititem, key, d);
-  }
-
-  public Double getDouble(String key) {
-    return NBTReflectionUtil.getDouble(bukkititem, key);
-  }
-
-  public void setBoolean(String key, Boolean b) {
-    bukkititem = NBTReflectionUtil.setBoolean(bukkititem, key, b);
-  }
-
-  public Boolean getBoolean(String key) {
-    return NBTReflectionUtil.getBoolean(bukkititem, key);
+    return itemStack;
   }
 
   public Boolean hasKey(String key) {
-    return NBTReflectionUtil.hasKey(bukkititem, key);
+    return NBTReflectionUtil.hasKey(itemStack, key);
+  }
+
+  public void setString(String key, String value) {
+    itemStack = NBTReflectionUtil.setString(itemStack, key, value);
+  }
+
+  public String getString(String key) {
+    return NBTReflectionUtil.getString(itemStack, key);
+  }
+
+  public void setInteger(String key, Integer value) {
+    itemStack = NBTReflectionUtil.setInt(itemStack, key, value);
+  }
+
+  public Integer getInteger(String key) {
+    return NBTReflectionUtil.getInt(itemStack, key);
+  }
+
+  public void setDouble(String key, Double value) {
+    itemStack = NBTReflectionUtil.setDouble(itemStack, key, value);
+  }
+
+  public Double getDouble(String key) {
+    return NBTReflectionUtil.getDouble(itemStack, key);
+  }
+
+  public void setBoolean(String key, Boolean value) {
+    itemStack = NBTReflectionUtil.setBoolean(itemStack, key, value);
+  }
+
+  public Boolean getBoolean(String key) {
+    return NBTReflectionUtil.getBoolean(itemStack, key);
   }
 
 }
