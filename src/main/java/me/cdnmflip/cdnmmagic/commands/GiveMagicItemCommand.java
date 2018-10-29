@@ -36,7 +36,7 @@ public class GiveMagicItemCommand implements CommandExecutor {
     }
 
     Player target = Bukkit.getPlayer(args[0]);
-    Optional<MagicItem> item = Magic.get().getRegistry().getItem(args[1]);
+    Optional<MagicItem> item = Magic.getInstance().getRegistry().getItem(args[1]);
     int amount = -1;
 
     // Target player validation
@@ -49,7 +49,7 @@ public class GiveMagicItemCommand implements CommandExecutor {
     if (!item.isPresent()) {
       ChatUtil.error(player, "Invalid item identifier! &7&oValid items are...");
 
-      Magic.get().getRegistry().getItems().forEach(magicItem ->
+      Magic.getInstance().getRegistry().getItems().forEach(magicItem ->
           ChatUtil.msg(player, " &7- &f" + magicItem.getIdentifier()));
 
       return true;

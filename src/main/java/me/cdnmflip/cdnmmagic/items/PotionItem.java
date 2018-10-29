@@ -2,8 +2,8 @@ package me.cdnmflip.cdnmmagic.items;
 
 import me.cdnmflip.cdnmmagic.data.ConsumableMagicItem;
 import me.cdnmflip.cdnmmagic.data.MagicItemType;
-import me.cdnmflip.cdnmmagic.util.ItemStackBuilder;
-import me.cdnmflip.cdnmmagic.util.NBTItem;
+import me.cdnmflip.cdnmmagic.util.item.ItemStackBuilder;
+import me.cdnmflip.cdnmmagic.util.item.NBTItem;
 import me.cdnmflip.cdnmmagic.util.TimeUtil;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;

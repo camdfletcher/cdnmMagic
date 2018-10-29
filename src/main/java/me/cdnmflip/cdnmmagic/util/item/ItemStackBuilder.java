@@ -1,4 +1,4 @@
-package me.cdnmflip.cdnmmagic.util;
+package me.cdnmflip.cdnmmagic.util.item;
 
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Color;
