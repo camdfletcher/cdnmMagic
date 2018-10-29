@@ -6,7 +6,7 @@ import me.cdnmflip.cdnmmagic.items.potions.FlameFuryPotion;
 import me.cdnmflip.cdnmmagic.items.spells.JuggernautSpell;
 import me.cdnmflip.cdnmmagic.items.spells.RejuvenationSpell;
 import me.cdnmflip.cdnmmagic.items.spells.ShadowWalkerSpell;
-import me.cdnmflip.cdnmmagic.util.NBTItem;
+import me.cdnmflip.cdnmmagic.util.item.NBTItem;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.HashSet;

@@ -6,10 +6,9 @@ import java.util.concurrent.TimeUnit;
  * @author codenameflip
  * @since 12/9/17
  */
-public final class TimeUtil {
+public enum TimeUtil {
 
-  private TimeUtil() {
-  }
+  ;
 
   /**
    * Converts a millisecond duration to a string format

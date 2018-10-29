@@ -24,8 +24,8 @@ public class PotionListener implements MagicListener {
     ItemStack hand = event.getItem();
 
     if (hand != null && hand.getType() == Material.POTION) {
-      if (Magic.get().getRegistry().isMagicItem(hand)) {
-        Optional<MagicItem> magicItem = Magic.get().getRegistry().getItem(hand);
+      if (Magic.getInstance().getRegistry().isMagicItem(hand)) {
+        Optional<MagicItem> magicItem = Magic.getInstance().getRegistry().getItem(hand);
 
         event.setCancelled(true);
 

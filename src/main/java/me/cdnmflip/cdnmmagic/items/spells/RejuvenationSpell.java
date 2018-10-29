@@ -31,7 +31,7 @@ public class RejuvenationSpell extends SpellItem {
 
   @Override
   public void onCast(Player player) {
-    Magic.get().getRegistry().getItems().forEach(item ->
+    Magic.getInstance().getRegistry().getItems().forEach(item ->
     {
       if (item.COOLDOWN_EXPIRATIONS.containsKey(player.getUniqueId())) {
         item.COOLDOWN_EXPIRATIONS.remove(player.getUniqueId());

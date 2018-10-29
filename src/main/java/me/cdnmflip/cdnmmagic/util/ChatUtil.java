@@ -8,10 +8,9 @@ import org.bukkit.entity.Player;
  * @author codenameflip
  * @since 12/8/17
  */
-public final class ChatUtil {
+public enum ChatUtil {
 
-  private ChatUtil() {
-  }
+  ;
 
   /**
    * Utility method for quickly messaging a {@link Player} with the tag automatically appended and

@@ -1,4 +1,4 @@
-package me.cdnmflip.cdnmmagic.util;
+package me.cdnmflip.cdnmmagic.util.item;
 
 import org.bukkit.inventory.ItemStack;
 
