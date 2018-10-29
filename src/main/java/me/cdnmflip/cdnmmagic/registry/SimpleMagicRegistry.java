@@ -21,62 +21,55 @@ import java.util.stream.Stream;
  */
 public class SimpleMagicRegistry implements IMagicRegistry {
 
-    private final Set<MagicItem> MAGIC_ITEMS = new HashSet<>();
+  private final Set<MagicItem> MAGIC_ITEMS = new HashSet<>();
 
-    @Override
-    public void loadMagic()
-    {
-        // Load all default items that will come bundled with the plugin
-        MAGIC_ITEMS.addAll(Stream.of(
-                // Spells
-                new ShadowWalkerSpell(),
-                new JuggernautSpell(),
-                new RejuvenationSpell(),
+  @Override
+  public void loadMagic() {
+    // Load all default items that will come bundled with the plugin
+    MAGIC_ITEMS.addAll(Stream.of(
+        // Spells
+        new ShadowWalkerSpell(),
+        new JuggernautSpell(),
+        new RejuvenationSpell(),
 
-                // Potions
-                new FlameFuryPotion()
-        ).collect(Collectors.toList()));
+        // Potions
+        new FlameFuryPotion()
+    ).collect(Collectors.toList()));
+  }
+
+  @Override
+  public void unloadMagic() {
+    MAGIC_ITEMS.clear();
+  }
+
+  @Override
+  public Set<MagicItem> getItems() {
+    return MAGIC_ITEMS;
+  }
+
+  @Override
+  public Optional<MagicItem> getItem(String identifier) {
+    return MAGIC_ITEMS.stream()
+        .filter(item -> item.getIdentifier().equalsIgnoreCase(identifier))
+        .findAny();
+  }
+
+  @Override
+  public Optional<MagicItem> getItem(ItemStack itemStack) {
+    NBTItem nbtItem = new NBTItem(itemStack);
+
+    if (!nbtItem.hasKey("magic_item")) {
+      return Optional.empty();
     }
 
-    @Override
-    public void unloadMagic()
-    {
-        MAGIC_ITEMS.clear();
-    }
+    String identifier = nbtItem.getString("magic_item");
 
-    @Override
-    public Set<MagicItem> getItems()
-    {
-        return MAGIC_ITEMS;
-    }
+    return getItem(identifier);
+  }
 
-    @Override
-    public Optional<MagicItem> getItem(String identifier)
-    {
-        return MAGIC_ITEMS.stream()
-                .filter(item -> item.getIdentifier().equalsIgnoreCase(identifier))
-                .findAny();
-    }
-
-    @Override
-    public Optional<MagicItem> getItem(ItemStack itemStack)
-    {
-        NBTItem nbtItem = new NBTItem(itemStack);
-
-        if (!nbtItem.hasKey("magic_item"))
-        {
-            return Optional.empty();
-        }
-
-        String identifier = nbtItem.getString("magic_item");
-
-        return getItem(identifier);
-    }
-
-    @Override
-    public boolean isMagicItem(ItemStack itemStack)
-    {
-        return new NBTItem(itemStack).hasKey("magic_item");
-    }
+  @Override
+  public boolean isMagicItem(ItemStack itemStack) {
+    return new NBTItem(itemStack).hasKey("magic_item");
+  }
 
 }

@@ -19,35 +19,30 @@ import java.util.Optional;
  */
 public class ItemListener implements MagicListener {
 
-    @EventHandler
-    public void onInteract(PlayerInteractEvent event)
-    {
-        Player player = event.getPlayer();
-        ItemStack hand = event.getItem();
+  @EventHandler
+  public void onInteract(PlayerInteractEvent event) {
+    Player player = event.getPlayer();
+    ItemStack hand = event.getItem();
 
-        if (hand != null && hand.getType() != Material.AIR && hand.getType() != Material.POTION)
-        {
-            if (Magic.get().getRegistry().isMagicItem(hand))
-            {
-                Optional<MagicItem> magicItem = Magic.get().getRegistry().getItem(hand);
+    if (hand != null && hand.getType() != Material.AIR && hand.getType() != Material.POTION) {
+      if (Magic.get().getRegistry().isMagicItem(hand)) {
+        Optional<MagicItem> magicItem = Magic.get().getRegistry().getItem(hand);
 
-                event.setCancelled(true);
-                event.setUseItemInHand(Event.Result.DENY);
-                event.setUseInteractedBlock(Event.Result.DENY);
+        event.setCancelled(true);
+        event.setUseItemInHand(Event.Result.DENY);
+        event.setUseInteractedBlock(Event.Result.DENY);
 
-                if (validateMagicItem(magicItem, player))
-                {
-                    if (magicItem.get().getType() == MagicItemType.ITEMSTACK)
-                    {
-                        ConsumableMagicItem consumableMagicItem = (ConsumableMagicItem) magicItem.get();
+        if (validateMagicItem(magicItem, player)) {
+          if (magicItem.get().getType() == MagicItemType.ITEMSTACK) {
+            ConsumableMagicItem consumableMagicItem = (ConsumableMagicItem) magicItem.get();
 
-                        // Handle deduction of the item and cast the spell
-                        consumableMagicItem.onConsumption(player, hand);
-                        consumableMagicItem.cast(player);
-                    }
-                }
-            }
+            // Handle deduction of the item and cast the spell
+            consumableMagicItem.onConsumption(player, hand);
+            consumableMagicItem.cast(player);
+          }
         }
+      }
     }
+  }
 
 }

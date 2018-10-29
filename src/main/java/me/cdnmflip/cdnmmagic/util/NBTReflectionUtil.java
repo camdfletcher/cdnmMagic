@@ -9,439 +9,362 @@ import org.bukkit.inventory.ItemStack;
  */
 public final class NBTReflectionUtil {
 
-    private NBTReflectionUtil()
-    {
+  private NBTReflectionUtil() {
+  }
+
+  private static Class getCraftItemstack() {
+    String version = Bukkit.getServer().getClass().getPackage().getName().replace(".", ",")
+        .split(",")[3];
+
+    try {
+      Class c = Class.forName("org.bukkit.craftbukkit." + version + ".inventory.CraftItemStack");
+      return c;
+    } catch (Exception ex) {
+      System.out.println("Error in ItemNBTAPI! (Outdated plugin?)");
+      ex.printStackTrace();
+
+      return null;
+    }
+  }
+
+  private static Object getnewNBTTag() {
+    String version = Bukkit.getServer().getClass().getPackage().getName().replace(".", ",")
+        .split(",")[3];
+
+    try {
+      Class c = Class.forName("net.minecraft.server." + version + ".NBTTagCompound");
+      return c.newInstance();
+    } catch (Exception ex) {
+      System.out.println("Error in ItemNBTAPI! (Outdated plugin?)");
+      ex.printStackTrace();
+
+      return null;
+    }
+  }
+
+  private static Object setNBTTag(Object nbtTag, Object nmsItem) {
+    try {
+      java.lang.reflect.Method method;
+      method = nmsItem.getClass().getMethod("setTag", nbtTag.getClass());
+      method.invoke(nmsItem, nbtTag);
+
+      return nmsItem;
+    } catch (Exception ex) {
+      ex.printStackTrace();
     }
 
-    private static Class getCraftItemstack()
-    {
-        String version = Bukkit.getServer().getClass().getPackage().getName().replace(".", ",").split(",")[3];
+    return null;
+  }
 
-        try
-        {
-            Class c = Class.forName("org.bukkit.craftbukkit." + version + ".inventory.CraftItemStack");
-            return c;
-        }
-        catch (Exception ex)
-        {
-            System.out.println("Error in ItemNBTAPI! (Outdated plugin?)");
-            ex.printStackTrace();
+  private static Object getNMSItemStack(ItemStack item) {
+    Class cis = getCraftItemstack();
+    java.lang.reflect.Method method;
 
-            return null;
-        }
+    try {
+      method = cis.getMethod("asNMSCopy", ItemStack.class);
+      Object answer = method.invoke(cis, item);
+
+      return answer;
+    } catch (Exception e) {
+      e.printStackTrace();
     }
 
-    private static Object getnewNBTTag()
-    {
-        String version = Bukkit.getServer().getClass().getPackage().getName().replace(".", ",").split(",")[3];
+    return null;
+  }
 
-        try
-        {
-            Class c = Class.forName("net.minecraft.server." + version + ".NBTTagCompound");
-            return c.newInstance();
-        }
-        catch (Exception ex)
-        {
-            System.out.println("Error in ItemNBTAPI! (Outdated plugin?)");
-            ex.printStackTrace();
+  private static ItemStack getBukkitItemStack(Object item) {
+    Class cis = getCraftItemstack();
+    java.lang.reflect.Method method;
 
-            return null;
-        }
+    try {
+      method = cis.getMethod("asBukkitCopy", item.getClass());
+      Object answer = method.invoke(cis, item);
+
+      return (ItemStack) answer;
+    } catch (Exception e) {
+      e.printStackTrace();
     }
 
-    private static Object setNBTTag(Object nbtTag, Object nmsItem)
-    {
-        try
-        {
-            java.lang.reflect.Method method;
-            method = nmsItem.getClass().getMethod("setTag", nbtTag.getClass());
-            method.invoke(nmsItem, nbtTag);
+    return null;
+  }
 
-            return nmsItem;
-        }
-        catch (Exception ex)
-        {
-            ex.printStackTrace();
-        }
+  private static Object getNBTTagCompound(Object nmsitem) {
+    Class c = nmsitem.getClass();
+    java.lang.reflect.Method method;
 
-        return null;
+    try {
+      method = c.getMethod("getTag");
+      Object answer = method.invoke(nmsitem);
+
+      return answer;
+    } catch (Exception e) {
+      e.printStackTrace();
     }
 
-    private static Object getNMSItemStack(ItemStack item)
-    {
-        Class cis = getCraftItemstack();
-        java.lang.reflect.Method method;
+    return null;
+  }
 
-        try
-        {
-            method = cis.getMethod("asNMSCopy", ItemStack.class);
-            Object answer = method.invoke(cis, item);
 
-            return answer;
-        }
-        catch (Exception e)
-        {
-            e.printStackTrace();
-        }
+  public static ItemStack setString(ItemStack item, String key, String Text) {
+    Object nmsitem = getNMSItemStack(item);
 
-        return null;
+    if (nmsitem == null) {
+      System.out.println("Got null! (Outdated Plugin?)");
+
+      return null;
     }
 
-    private static ItemStack getBukkitItemStack(Object item)
-    {
-        Class cis = getCraftItemstack();
-        java.lang.reflect.Method method;
+    Object nbttag = getNBTTagCompound(nmsitem);
 
-        try
-        {
-            method = cis.getMethod("asBukkitCopy", item.getClass());
-            Object answer = method.invoke(cis, item);
-
-            return (ItemStack) answer;
-        }
-        catch (Exception e)
-        {
-            e.printStackTrace();
-        }
-
-        return null;
+    if (nbttag == null) {
+      nbttag = getnewNBTTag();
     }
 
-    private static Object getNBTTagCompound(Object nmsitem)
-    {
-        Class c = nmsitem.getClass();
-        java.lang.reflect.Method method;
+    java.lang.reflect.Method method;
 
-        try
-        {
-            method = c.getMethod("getTag");
-            Object answer = method.invoke(nmsitem);
+    try {
+      method = nbttag.getClass().getMethod("setString", String.class, String.class);
+      method.invoke(nbttag, key, Text);
 
-            return answer;
-        }
-        catch (Exception e)
-        {
-            e.printStackTrace();
-        }
+      nmsitem = setNBTTag(nbttag, nmsitem);
 
-        return null;
+      return getBukkitItemStack(nmsitem);
+    } catch (Exception ex) {
+      ex.printStackTrace();
     }
 
+    return item;
+  }
 
-    public static ItemStack setString(ItemStack item, String key, String Text)
-    {
-        Object nmsitem = getNMSItemStack(item);
+  public static String getString(ItemStack item, String key) {
+    Object nmsitem = getNMSItemStack(item);
 
-        if (nmsitem == null)
-        {
-            System.out.println("Got null! (Outdated Plugin?)");
+    if (nmsitem == null) {
+      System.out.println("Got null! (Outdated Plugin?)");
 
-            return null;
-        }
-
-        Object nbttag = getNBTTagCompound(nmsitem);
-
-        if (nbttag == null)
-        {
-            nbttag = getnewNBTTag();
-        }
-
-        java.lang.reflect.Method method;
-
-        try
-        {
-            method = nbttag.getClass().getMethod("setString", String.class, String.class);
-            method.invoke(nbttag, key, Text);
-
-            nmsitem = setNBTTag(nbttag, nmsitem);
-
-            return getBukkitItemStack(nmsitem);
-        }
-        catch (Exception ex)
-        {
-            ex.printStackTrace();
-        }
-
-        return item;
+      return null;
     }
 
-    public static String getString(ItemStack item, String key)
-    {
-        Object nmsitem = getNMSItemStack(item);
+    Object nbttag = getNBTTagCompound(nmsitem);
 
-        if (nmsitem == null)
-        {
-            System.out.println("Got null! (Outdated Plugin?)");
-
-            return null;
-        }
-
-        Object nbttag = getNBTTagCompound(nmsitem);
-
-        if (nbttag == null)
-        {
-            nbttag = getnewNBTTag();
-        }
-
-        java.lang.reflect.Method method;
-
-        try
-        {
-            method = nbttag.getClass().getMethod("getString", String.class);
-
-            return (String) method.invoke(nbttag, key);
-        }
-        catch (Exception ex)
-        {
-            ex.printStackTrace();
-        }
-
-        return null;
+    if (nbttag == null) {
+      nbttag = getnewNBTTag();
     }
 
-    public static ItemStack setInt(ItemStack item, String key, Integer i)
-    {
-        Object nmsitem = getNMSItemStack(item);
+    java.lang.reflect.Method method;
 
-        if (nmsitem == null)
-        {
-            System.out.println("Got null! (Outdated Plugin?)");
+    try {
+      method = nbttag.getClass().getMethod("getString", String.class);
 
-            return null;
-        }
-
-        Object nbttag = getNBTTagCompound(nmsitem);
-
-        if (nbttag == null)
-        {
-            nbttag = getnewNBTTag();
-        }
-
-        java.lang.reflect.Method method;
-
-        try
-        {
-            method = nbttag.getClass().getMethod("setInt", String.class, int.class);
-            method.invoke(nbttag, key, i);
-
-            nmsitem = setNBTTag(nbttag, nmsitem);
-
-            return getBukkitItemStack(nmsitem);
-        }
-        catch (Exception ex)
-        {
-            ex.printStackTrace();
-        }
-
-        return item;
+      return (String) method.invoke(nbttag, key);
+    } catch (Exception ex) {
+      ex.printStackTrace();
     }
 
-    public static Integer getInt(ItemStack item, String key)
-    {
-        Object nmsitem = getNMSItemStack(item);
+    return null;
+  }
 
-        if (nmsitem == null)
-        {
-            System.out.println("Got null! (Outdated Plugin?)");
+  public static ItemStack setInt(ItemStack item, String key, Integer i) {
+    Object nmsitem = getNMSItemStack(item);
 
-            return null;
-        }
+    if (nmsitem == null) {
+      System.out.println("Got null! (Outdated Plugin?)");
 
-        Object nbttag = getNBTTagCompound(nmsitem);
-
-        if (nbttag == null)
-        {
-            nbttag = getnewNBTTag();
-        }
-
-        java.lang.reflect.Method method;
-
-        try
-        {
-            method = nbttag.getClass().getMethod("getInt", String.class);
-
-            return (Integer) method.invoke(nbttag, key);
-        }
-        catch (Exception ex)
-        {
-            ex.printStackTrace();
-        }
-
-        return null;
+      return null;
     }
 
-    public static ItemStack setDouble(ItemStack item, String key, Double d)
-    {
-        Object nmsitem = getNMSItemStack(item);
+    Object nbttag = getNBTTagCompound(nmsitem);
 
-        if (nmsitem == null)
-        {
-            System.out.println("Got null! (Outdated Plugin?)");
-
-            return null;
-        }
-
-        Object nbttag = getNBTTagCompound(nmsitem);
-
-        if (nbttag == null)
-        {
-            nbttag = getnewNBTTag();
-        }
-
-        java.lang.reflect.Method method;
-
-        try
-        {
-            method = nbttag.getClass().getMethod("setDouble", String.class, double.class);
-            method.invoke(nbttag, key, d);
-
-            nmsitem = setNBTTag(nbttag, nmsitem);
-
-            return getBukkitItemStack(nmsitem);
-        }
-        catch (Exception ex)
-        {
-            ex.printStackTrace();
-        }
-        return item;
+    if (nbttag == null) {
+      nbttag = getnewNBTTag();
     }
 
-    public static Double getDouble(ItemStack item, String key)
-    {
-        Object nmsitem = getNMSItemStack(item);
+    java.lang.reflect.Method method;
 
-        if (nmsitem == null)
-        {
-            System.out.println("Got null! (Outdated Plugin?)");
+    try {
+      method = nbttag.getClass().getMethod("setInt", String.class, int.class);
+      method.invoke(nbttag, key, i);
 
-            return null;
-        }
-        Object nbttag = getNBTTagCompound(nmsitem);
+      nmsitem = setNBTTag(nbttag, nmsitem);
 
-        if (nbttag == null)
-        {
-            nbttag = getnewNBTTag();
-        }
-
-        java.lang.reflect.Method method;
-
-        try
-        {
-            method = nbttag.getClass().getMethod("getDouble", String.class);
-
-            return (Double) method.invoke(nbttag, key);
-        }
-        catch (Exception ex)
-        {
-            ex.printStackTrace();
-        }
-
-        return null;
+      return getBukkitItemStack(nmsitem);
+    } catch (Exception ex) {
+      ex.printStackTrace();
     }
 
-    public static ItemStack setBoolean(ItemStack item, String key, Boolean d)
-    {
-        Object nmsitem = getNMSItemStack(item);
+    return item;
+  }
 
-        if (nmsitem == null)
-        {
-            System.out.println("Got null! (Outdated Plugin?)");
+  public static Integer getInt(ItemStack item, String key) {
+    Object nmsitem = getNMSItemStack(item);
 
-            return null;
-        }
+    if (nmsitem == null) {
+      System.out.println("Got null! (Outdated Plugin?)");
 
-        Object nbttag = getNBTTagCompound(nmsitem);
-
-        if (nbttag == null)
-        {
-            nbttag = getnewNBTTag();
-        }
-
-        java.lang.reflect.Method method;
-
-        try
-        {
-            method = nbttag.getClass().getMethod("setBoolean", String.class, boolean.class);
-            method.invoke(nbttag, key, d);
-
-            nmsitem = setNBTTag(nbttag, nmsitem);
-
-            return getBukkitItemStack(nmsitem);
-        }
-        catch (Exception ex)
-        {
-            ex.printStackTrace();
-        }
-
-        return item;
+      return null;
     }
 
-    public static Boolean getBoolean(ItemStack item, String key)
-    {
-        Object nmsitem = getNMSItemStack(item);
+    Object nbttag = getNBTTagCompound(nmsitem);
 
-        if (nmsitem == null)
-        {
-            System.out.println("Got null! (Outdated Plugin?)");
-
-            return null;
-        }
-
-        Object nbttag = getNBTTagCompound(nmsitem);
-
-        if (nbttag == null)
-        {
-            nbttag = getnewNBTTag();
-        }
-
-        java.lang.reflect.Method method;
-
-        try
-        {
-            method = nbttag.getClass().getMethod("getBoolean", String.class);
-
-            return (Boolean) method.invoke(nbttag, key);
-        }
-        catch (Exception ex)
-        {
-            ex.printStackTrace();
-        }
-
-        return null;
+    if (nbttag == null) {
+      nbttag = getnewNBTTag();
     }
 
-    public static Boolean hasKey(ItemStack item, String key)
-    {
-        Object nmsitem = getNMSItemStack(item);
+    java.lang.reflect.Method method;
 
-        if (nmsitem == null)
-        {
-            System.out.println("Got null! (Outdated Plugin?)");
+    try {
+      method = nbttag.getClass().getMethod("getInt", String.class);
 
-            return null;
-        }
-
-        Object nbttag = getNBTTagCompound(nmsitem);
-
-        if (nbttag == null)
-        {
-            nbttag = getnewNBTTag();
-        }
-
-        java.lang.reflect.Method method;
-
-        try
-        {
-            method = nbttag.getClass().getMethod("hasKey", String.class);
-
-            return (Boolean) method.invoke(nbttag, key);
-        }
-        catch (Exception ex)
-        {
-            ex.printStackTrace();
-        }
-
-        return null;
+      return (Integer) method.invoke(nbttag, key);
+    } catch (Exception ex) {
+      ex.printStackTrace();
     }
+
+    return null;
+  }
+
+  public static ItemStack setDouble(ItemStack item, String key, Double d) {
+    Object nmsitem = getNMSItemStack(item);
+
+    if (nmsitem == null) {
+      System.out.println("Got null! (Outdated Plugin?)");
+
+      return null;
+    }
+
+    Object nbttag = getNBTTagCompound(nmsitem);
+
+    if (nbttag == null) {
+      nbttag = getnewNBTTag();
+    }
+
+    java.lang.reflect.Method method;
+
+    try {
+      method = nbttag.getClass().getMethod("setDouble", String.class, double.class);
+      method.invoke(nbttag, key, d);
+
+      nmsitem = setNBTTag(nbttag, nmsitem);
+
+      return getBukkitItemStack(nmsitem);
+    } catch (Exception ex) {
+      ex.printStackTrace();
+    }
+    return item;
+  }
+
+  public static Double getDouble(ItemStack item, String key) {
+    Object nmsitem = getNMSItemStack(item);
+
+    if (nmsitem == null) {
+      System.out.println("Got null! (Outdated Plugin?)");
+
+      return null;
+    }
+    Object nbttag = getNBTTagCompound(nmsitem);
+
+    if (nbttag == null) {
+      nbttag = getnewNBTTag();
+    }
+
+    java.lang.reflect.Method method;
+
+    try {
+      method = nbttag.getClass().getMethod("getDouble", String.class);
+
+      return (Double) method.invoke(nbttag, key);
+    } catch (Exception ex) {
+      ex.printStackTrace();
+    }
+
+    return null;
+  }
+
+  public static ItemStack setBoolean(ItemStack item, String key, Boolean d) {
+    Object nmsitem = getNMSItemStack(item);
+
+    if (nmsitem == null) {
+      System.out.println("Got null! (Outdated Plugin?)");
+
+      return null;
+    }
+
+    Object nbttag = getNBTTagCompound(nmsitem);
+
+    if (nbttag == null) {
+      nbttag = getnewNBTTag();
+    }
+
+    java.lang.reflect.Method method;
+
+    try {
+      method = nbttag.getClass().getMethod("setBoolean", String.class, boolean.class);
+      method.invoke(nbttag, key, d);
+
+      nmsitem = setNBTTag(nbttag, nmsitem);
+
+      return getBukkitItemStack(nmsitem);
+    } catch (Exception ex) {
+      ex.printStackTrace();
+    }
+
+    return item;
+  }
+
+  public static Boolean getBoolean(ItemStack item, String key) {
+    Object nmsitem = getNMSItemStack(item);
+
+    if (nmsitem == null) {
+      System.out.println("Got null! (Outdated Plugin?)");
+
+      return null;
+    }
+
+    Object nbttag = getNBTTagCompound(nmsitem);
+
+    if (nbttag == null) {
+      nbttag = getnewNBTTag();
+    }
+
+    java.lang.reflect.Method method;
+
+    try {
+      method = nbttag.getClass().getMethod("getBoolean", String.class);
+
+      return (Boolean) method.invoke(nbttag, key);
+    } catch (Exception ex) {
+      ex.printStackTrace();
+    }
+
+    return null;
+  }
+
+  public static Boolean hasKey(ItemStack item, String key) {
+    Object nmsitem = getNMSItemStack(item);
+
+    if (nmsitem == null) {
+      System.out.println("Got null! (Outdated Plugin?)");
+
+      return null;
+    }
+
+    Object nbttag = getNBTTagCompound(nmsitem);
+
+    if (nbttag == null) {
+      nbttag = getnewNBTTag();
+    }
+
+    java.lang.reflect.Method method;
+
+    try {
+      method = nbttag.getClass().getMethod("hasKey", String.class);
+
+      return (Boolean) method.invoke(nbttag, key);
+    } catch (Exception ex) {
+      ex.printStackTrace();
+    }
+
+    return null;
+  }
 
 }

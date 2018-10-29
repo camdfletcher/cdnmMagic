@@ -15,38 +15,35 @@ import java.util.concurrent.TimeUnit;
  */
 public class FlameFuryPotion extends PotionItem {
 
-    public FlameFuryPotion()
-    {
-        super("flamefury",
-                "&c&lFlame Fury Potion",
-                TimeUnit.MINUTES.toMillis(2),
-                PotionType.FIRE_RESISTANCE,
-                "&fOn consumption gain a resistance to",
-                "&fall flame based attacks and instantly",
-                "&fset enemies around you on fire!"
-        );
-    }
+  public FlameFuryPotion() {
+    super("flamefury",
+        "&c&lFlame Fury Potion",
+        TimeUnit.MINUTES.toMillis(2),
+        PotionType.FIRE_RESISTANCE,
+        "&fOn consumption gain a resistance to",
+        "&fall flame based attacks and instantly",
+        "&fset enemies around you on fire!"
+    );
+  }
 
-    @Override
-    public boolean canCast(Player player)
-    {
-        return true;
-    }
+  @Override
+  public boolean canCast(Player player) {
+    return true;
+  }
 
-    @Override
-    public void onCast(Player player)
-    {
-        // Fire Resistance
-        player.addPotionEffect(new PotionEffect(PotionEffectType.FIRE_RESISTANCE, 20 * 20, 0, true, true));
+  @Override
+  public void onCast(Player player) {
+    // Fire Resistance
+    player.addPotionEffect(
+        new PotionEffect(PotionEffectType.FIRE_RESISTANCE, 20 * 20, 0, true, true));
 
-        player.getNearbyEntities(10, 10, 10).forEach(entity ->
-        {
-            if (entity instanceof Monster)
-            {
-                entity.setFireTicks(20 * 10);
-                entity.getWorld().strikeLightningEffect(entity.getLocation());
-            }
-        });
-    }
+    player.getNearbyEntities(10, 10, 10).forEach(entity ->
+    {
+      if (entity instanceof Monster) {
+        entity.setFireTicks(20 * 10);
+        entity.getWorld().strikeLightningEffect(entity.getLocation());
+      }
+    });
+  }
 
 }

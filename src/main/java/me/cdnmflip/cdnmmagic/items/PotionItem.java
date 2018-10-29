@@ -19,71 +19,67 @@ import java.util.Arrays;
  */
 public abstract class PotionItem extends ConsumableMagicItem {
 
-    private final PotionType potionType;
+  private final PotionType potionType;
 
-    public PotionItem(String identifier, String displayName, long cooldown, PotionType potionType, String... description)
-    {
-        super(MagicItemType.POTION, identifier, displayName, cooldown, description);
-        this.potionType = potionType;
+  public PotionItem(String identifier, String displayName, long cooldown, PotionType potionType,
+      String... description) {
+    super(MagicItemType.POTION, identifier, displayName, cooldown, description);
+    this.potionType = potionType;
+  }
+
+  @Override
+  public void onConsumption(Player player, ItemStack consumed) {
+    if (consumed.getAmount() > 1) {
+      ItemStack newStack = consumed.clone();
+      newStack.setAmount(consumed.getAmount() - 1);
+
+      player.setItemInHand(newStack);
+    } else {
+      player.setItemInHand(new ItemStack(
+          Material.AIR)); // Messy work around for the removal of ALL unstacked potions
+    }
+  }
+
+  @Override
+  public ItemStack generateItemStack(Player player, int amount) {
+    return generateDefaultItem(player, amount);
+  }
+
+  /**
+   * Automatically generates a magic potion item using the specified template format
+   *
+   * @param player The {@link Player} who will be used to customize the item (if applicable)
+   * @param amount The number of spells that should be generated in this stack (NOTE: Cannot be >
+   * 64)
+   * @param additional Any additional text that should be appended under the description in the
+   * lore
+   * @return A generated {@link ItemStack}
+   */
+  private ItemStack generateDefaultItem(Player player, int amount, String... additional) {
+    ItemStackBuilder builder = new ItemStackBuilder(Material.POTION)
+        .withAmount(amount)
+        .withData(potionType.getDamageValue())
+        .withGlow()
+        .withFlag(ItemFlag.HIDE_POTION_EFFECTS)
+        .withName(getDisplayName() + " &7&l(Drink)")
+        .withLore("&7&oConsumable Magic Potion")
+        .withLore(" ");
+
+    Arrays.stream(getDescription()).forEach(builder::withLore);
+
+    builder.withLore(" ");
+
+    if (additional.length > 0) {
+      Arrays.stream(additional).forEach(builder::withLore);
+      builder.withLore(" ");
     }
 
-    @Override
-    public void onConsumption(Player player, ItemStack consumed)
-    {
-        if (consumed.getAmount() > 1)
-        {
-            ItemStack newStack = consumed.clone();
-            newStack.setAmount(consumed.getAmount() - 1);
+    builder.withLore("&fCooldown &6" + TimeUtil.getDurationBreakdown(getCooldownTime()));
 
-            player.setItemInHand(newStack);
-        }
-        else
-        {
-            player.setItemInHand(new ItemStack(Material.AIR)); // Messy work around for the removal of ALL unstacked potions
-        }
-    }
+    NBTItem nbtItem = new NBTItem(builder.build());
+    nbtItem.setString("magic_item", this.getIdentifier());
 
-    @Override
-    public ItemStack generateItemStack(Player player, int amount)
-    {
-        return generateDefaultItem(player, amount);
-    }
-
-    /**
-     * Automatically generates a magic potion item using the specified template format
-     *
-     * @param player The {@link Player} who will be used to customize the item (if applicable)
-     * @param amount The number of spells that should be generated in this stack (NOTE: Cannot be > 64)
-     * @param additional Any additional text that should be appended under the description in the lore
-     * @return A generated {@link ItemStack}
-     */
-    private ItemStack generateDefaultItem(Player player, int amount, String... additional)
-    {
-        ItemStackBuilder builder = new ItemStackBuilder(Material.POTION)
-                .withAmount(amount)
-                .withData(potionType.getDamageValue())
-                .withGlow()
-                .withFlag(ItemFlag.HIDE_POTION_EFFECTS)
-                .withName(getDisplayName() + " &7&l(Drink)")
-                .withLore("&7&oConsumable Magic Potion")
-                .withLore(" ");
-
-        Arrays.stream(getDescription()).forEach(builder::withLore);
-
-        builder.withLore(" ");
-
-        if (additional.length > 0)
-        {
-            Arrays.stream(additional).forEach(builder::withLore);
-            builder.withLore(" ");
-        }
-
-        builder.withLore("&fCooldown &6" + TimeUtil.getDurationBreakdown(getCooldownTime()));
-
-        NBTItem nbtItem = new NBTItem(builder.build());
-        nbtItem.setString("magic_item", this.getIdentifier());
-
-        return nbtItem.getItem();
-    }
+    return nbtItem.getItem();
+  }
 
 }

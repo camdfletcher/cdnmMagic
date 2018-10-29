@@ -14,34 +14,31 @@ import java.util.concurrent.TimeUnit;
  */
 public class RejuvenationSpell extends SpellItem {
 
-    public RejuvenationSpell()
-    {
-        super("rejuvenation",
-                "&b&lRejuvenation Spell",
-                TimeUnit.MINUTES.toMillis(4),
-                DyeColor.LIGHT_BLUE,
-                "&fInstantly resets &eall &fyour",
-                "&fcurrent spell cooldowns."
-        );
-    }
+  public RejuvenationSpell() {
+    super("rejuvenation",
+        "&b&lRejuvenation Spell",
+        TimeUnit.MINUTES.toMillis(4),
+        DyeColor.LIGHT_BLUE,
+        "&fInstantly resets &eall &fyour",
+        "&fcurrent spell cooldowns."
+    );
+  }
 
-    @Override
-    public boolean canCast(Player player)
-    {
-        return true;
-    }
+  @Override
+  public boolean canCast(Player player) {
+    return true;
+  }
 
-    @Override
-    public void onCast(Player player)
+  @Override
+  public void onCast(Player player) {
+    Magic.get().getRegistry().getItems().forEach(item ->
     {
-        Magic.get().getRegistry().getItems().forEach(item ->
-        {
-            if (item.COOLDOWN_EXPIRATIONS.containsKey(player.getUniqueId()))
-            {
-                item.COOLDOWN_EXPIRATIONS.remove(player.getUniqueId());
+      if (item.COOLDOWN_EXPIRATIONS.containsKey(player.getUniqueId())) {
+        item.COOLDOWN_EXPIRATIONS.remove(player.getUniqueId());
 
-                player.sendMessage(ChatUtil.colorize("&bCooldown reset for " + item.getDisplayName() + "&b!"));
-            }
-        });
-    }
+        player.sendMessage(
+            ChatUtil.colorize("&bCooldown reset for " + item.getDisplayName() + "&b!"));
+      }
+    });
+  }
 }
