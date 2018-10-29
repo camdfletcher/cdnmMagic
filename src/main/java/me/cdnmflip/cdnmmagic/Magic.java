@@ -15,53 +15,47 @@ import java.util.Arrays;
 
 public final class Magic extends JavaPlugin {
 
-    public static final String TAG = ChatUtil.colorize("&d&l[Magic] &f");
+  public static final String TAG = ChatUtil.colorize("&d&l[Magic] &f");
 
-    private static Magic instance;
-    private IMagicRegistry registry;
+  private static Magic instance;
+  private IMagicRegistry registry;
 
-    @Override
-    public void onEnable()
-    {
-        instance = this;
-        registry = new SimpleMagicRegistry(); // Default to the simple registry. Other plugins are free to override
-        registry.loadMagic();
+  @Override
+  public void onEnable() {
+    instance = this;
+    registry = new SimpleMagicRegistry(); // Default to the simple registry. Other plugins are free to override
+    registry.loadMagic();
 
-        registerListeners(
-                new ItemListener(),
-                new PotionListener()
-        );
+    registerListeners(
+        new ItemListener(),
+        new PotionListener()
+    );
 
-        getCommand("giveMagicItem").setExecutor(new GiveMagicItemCommand());
-    }
+    getCommand("giveMagicItem").setExecutor(new GiveMagicItemCommand());
+  }
 
-    @Override
-    public void onDisable()
-    {
-        registry.unloadMagic();
-    }
+  @Override
+  public void onDisable() {
+    registry.unloadMagic();
+  }
 
-    public static Magic get()
-    {
-        return instance;
-    }
+  public static Magic get() {
+    return instance;
+  }
 
-    private void registerListeners(Listener... listeners)
-    {
-        PluginManager pm = Bukkit.getPluginManager();
+  private void registerListeners(Listener... listeners) {
+    PluginManager pm = Bukkit.getPluginManager();
 
-        Arrays.stream(listeners).forEach(listener -> pm.registerEvents(listener, this));
-    }
+    Arrays.stream(listeners).forEach(listener -> pm.registerEvents(listener, this));
+  }
 
-    public IMagicRegistry getRegistry()
-    {
-        return registry;
-    }
+  public IMagicRegistry getRegistry() {
+    return registry;
+  }
 
-    public void setRegistry(IMagicRegistry registry)
-    {
-        this.registry = registry;
-        this.registry.loadMagic();
-    }
+  public void setRegistry(IMagicRegistry registry) {
+    this.registry = registry;
+    this.registry.loadMagic();
+  }
 
 }

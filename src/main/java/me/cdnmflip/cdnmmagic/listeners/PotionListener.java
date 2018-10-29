@@ -18,33 +18,28 @@ import java.util.Optional;
  */
 public class PotionListener implements MagicListener {
 
-    @EventHandler
-    public void onConsumePotion(PlayerItemConsumeEvent event)
-    {
-        Player player = event.getPlayer();
-        ItemStack hand = event.getItem();
+  @EventHandler
+  public void onConsumePotion(PlayerItemConsumeEvent event) {
+    Player player = event.getPlayer();
+    ItemStack hand = event.getItem();
 
-        if (hand != null && hand.getType() == Material.POTION)
-        {
-            if (Magic.get().getRegistry().isMagicItem(hand))
-            {
-                Optional<MagicItem> magicItem = Magic.get().getRegistry().getItem(hand);
+    if (hand != null && hand.getType() == Material.POTION) {
+      if (Magic.get().getRegistry().isMagicItem(hand)) {
+        Optional<MagicItem> magicItem = Magic.get().getRegistry().getItem(hand);
 
-                event.setCancelled(true);
+        event.setCancelled(true);
 
-                if (validateMagicItem(magicItem, player))
-                {
-                    if (magicItem.get().getType() == MagicItemType.POTION)
-                    {
-                        ConsumableMagicItem consumableMagicItem = (ConsumableMagicItem) magicItem.get();
+        if (validateMagicItem(magicItem, player)) {
+          if (magicItem.get().getType() == MagicItemType.POTION) {
+            ConsumableMagicItem consumableMagicItem = (ConsumableMagicItem) magicItem.get();
 
-                        // Handle deduction of the potion
-                        consumableMagicItem.onConsumption(player, hand);
-                        consumableMagicItem.cast(player);
-                    }
-                }
-            }
+            // Handle deduction of the potion
+            consumableMagicItem.onConsumption(player, hand);
+            consumableMagicItem.cast(player);
+          }
         }
+      }
     }
+  }
 
 }

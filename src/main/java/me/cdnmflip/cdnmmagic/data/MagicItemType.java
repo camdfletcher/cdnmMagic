@@ -6,7 +6,6 @@ package me.cdnmflip.cdnmmagic.data;
  */
 public enum MagicItemType {
 
-    ITEMSTACK, POTION
-    ;
+  ITEMSTACK, POTION;
 
 }
